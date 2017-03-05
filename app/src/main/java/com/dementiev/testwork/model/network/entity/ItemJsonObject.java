@@ -1,4 +1,4 @@
-package com.dementiev.testwork.model.network.entities;
+package com.dementiev.testwork.model.network.entity;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by dron on 04.03.17.
  */
 
-public class ItemJsonEntity {
+public class ItemJsonObject {
 
     @SerializedName("id")
     int id;

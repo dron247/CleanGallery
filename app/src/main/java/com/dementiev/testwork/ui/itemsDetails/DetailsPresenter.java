@@ -5,7 +5,7 @@ import android.database.SQLException;
 
 import com.dementiev.testwork.model.entity.Item;
 import com.dementiev.testwork.model.storage.ItemsCacheDb;
-import com.dementiev.testwork.model.util.DbList;
+import com.dementiev.testwork.model.util.CursorList;
 import com.dementiev.testwork.ui.base.BaseView;
 import com.dementiev.testwork.ui.itemsDetails.base.ItemDetailsPresenter;
 import com.dementiev.testwork.ui.itemsDetails.base.ItemDetailsView;
@@ -17,6 +17,9 @@ import java.util.AbstractList;
  */
 
 public final class DetailsPresenter implements ItemDetailsPresenter {
+    private Cursor itemsCursor;
+    private ItemsCacheDb itemsCacheDb;
+    private ItemDetailsView itemDetailsView = null;
     private DetailsPresenter() {
         //
     }
@@ -24,12 +27,6 @@ public final class DetailsPresenter implements ItemDetailsPresenter {
     public static DetailsPresenter create() {
         return new DetailsPresenter();
     }
-
-
-    private Cursor itemsCursor;
-    private ItemsCacheDb itemsCacheDb;
-
-    private ItemDetailsView itemDetailsView = null;
 
     @Override
     public <E extends BaseView> void bind(E view) {
@@ -63,7 +60,7 @@ public final class DetailsPresenter implements ItemDetailsPresenter {
                 itemsCursor.close();
             }
             itemsCursor = itemsCacheDb.getItems();
-            return new DbList<>(itemsCursor, cursor -> {
+            return new CursorList<>(itemsCursor, cursor -> {
                 int idColIndex = cursor.getColumnIndex("id");
                 int titleColIndex = cursor.getColumnIndex("title");
                 int imgColIndex = cursor.getColumnIndex("img");

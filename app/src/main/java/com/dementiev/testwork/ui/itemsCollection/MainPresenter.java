@@ -3,10 +3,10 @@ package com.dementiev.testwork.ui.itemsCollection;
 import android.database.Cursor;
 import android.database.SQLException;
 
-import com.dementiev.testwork.interactor.base.Interactor;
 import com.dementiev.testwork.model.entity.Item;
+import com.dementiev.testwork.model.interactor.base.Interactor;
 import com.dementiev.testwork.model.storage.ItemsCacheDb;
-import com.dementiev.testwork.model.util.DbList;
+import com.dementiev.testwork.model.util.CursorList;
 import com.dementiev.testwork.ui.base.BaseView;
 import com.dementiev.testwork.ui.itemsCollection.base.ItemsCollectionPresenter;
 import com.dementiev.testwork.ui.itemsCollection.base.ItemsCollectionView;
@@ -29,21 +29,19 @@ final class MainPresenter implements ItemsCollectionPresenter {
     private Disposable loadItemsSubscription = null;
 
 
-    public static MainPresenter create(Interactor loadItemsInteractor) {
-        return new MainPresenter(loadItemsInteractor);
-    }
-
-
     private MainPresenter(Interactor loadItemsInteractor) {
         this.loadItemsInteractor = loadItemsInteractor;
     }
 
+    public static MainPresenter create(Interactor loadItemsInteractor) {
+        return new MainPresenter(loadItemsInteractor);
+    }
 
     @Override
     public void bind(BaseView view) {
         itemsCollectionView = (ItemsCollectionView) view;
         itemsCacheDb = new ItemsCacheDb(view.getContext());
-        // probably a good place to create cursor, or do it lazily on first run
+        // probably a good place to create cursor, or do it lazy on first run
 
     }
 
@@ -71,7 +69,7 @@ final class MainPresenter implements ItemsCollectionPresenter {
                 itemsCursor.close();
             }
             itemsCursor = itemsCacheDb.getItems();
-            AbstractList<Item> list = new DbList<>(itemsCursor, cursor -> {
+            AbstractList<Item> list = new CursorList<>(itemsCursor, cursor -> {
                 int idColIndex = cursor.getColumnIndex("id");
                 int titleColIndex = cursor.getColumnIndex("title");
                 int imgColIndex = cursor.getColumnIndex("img");
@@ -81,7 +79,7 @@ final class MainPresenter implements ItemsCollectionPresenter {
                         cursor.getString(imgColIndex)
                 );
             });
-            if(list.size() == 0){
+            if (list.size() == 0) {
                 onRefreshCommand();
             }
             return list;
@@ -104,7 +102,7 @@ final class MainPresenter implements ItemsCollectionPresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         () -> {
-                            if (isAttached()) {
+                            if (isAttached()) { // should be fine without this check(see unbind method), just precaution
                                 itemsCollectionView.hideUpdate();
                                 itemsCollectionView.onItemsCollectionUpdated(false);
                             }

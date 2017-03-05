@@ -43,6 +43,10 @@ public class DetailsActivity extends BaseActivity implements ItemDetailsView {
         Log.d("DETAILS", "created");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+
+        currentPagePosition = getIntent().getIntExtra(POSITION_KEY, 0);
+
+        // toolbar
         Toolbar toolbar = $(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -54,7 +58,7 @@ public class DetailsActivity extends BaseActivity implements ItemDetailsView {
         toolbar.setNavigationIcon(backArrow);
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        currentPagePosition = getIntent().getIntExtra(POSITION_KEY, 0);
+
         detailsPresenter = DetailsPresenter.create();
         detailsPresenter.bind(this);
 

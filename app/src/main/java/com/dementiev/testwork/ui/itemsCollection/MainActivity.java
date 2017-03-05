@@ -11,7 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.dementiev.testwork.R;
-import com.dementiev.testwork.interactor.LoadItemsInteractor;
+import com.dementiev.testwork.model.interactor.LoadItemsInteractor;
 import com.dementiev.testwork.ui.base.BaseActivity;
 import com.dementiev.testwork.ui.itemsCollection.base.ItemsCollectionPresenter;
 import com.dementiev.testwork.ui.itemsCollection.base.ItemsCollectionView;
@@ -92,7 +92,7 @@ public class MainActivity extends BaseActivity implements ItemsCollectionView {
             configureList();
             itemsListAdapter.notifyDataSetChanged();
         } else {
-            Toast.makeText(this, R.string.image_load_error, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.list_load_error, Toast.LENGTH_SHORT).show();
         }
     }
 

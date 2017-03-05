@@ -1,4 +1,4 @@
-package com.dementiev.testwork.interactor.base;
+package com.dementiev.testwork.model.interactor.base;
 
 import io.reactivex.Completable;
 

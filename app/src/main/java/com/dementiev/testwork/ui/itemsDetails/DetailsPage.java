@@ -32,10 +32,18 @@ public class DetailsPage extends Fragment {
 
     private static final String ARG_ITEM_POS = "item_pos";
     private static final String ARG_ITEM_IS_LAST = "item_iis_last";
-
+    int itemId;
+    String itemTitle;
+    String itemImageUri;
+    int adapterPosition = 0;
+    boolean isLast = false;
+    View titleContainer;
+    TextView textView;
+    TextView errorLabel;
+    ImageView image;
+    ProgressBar spinner;
     public DetailsPage() {
     }
-
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -55,21 +63,6 @@ public class DetailsPage extends Fragment {
         return fragment;
     }
 
-    int itemId;
-    String itemTitle;
-    String itemImageUri;
-
-    int adapterPosition = 0;
-    boolean isLast = false;
-
-    View titleContainer;
-    TextView textView;
-    TextView errorLabel;
-    //ImageView btnNext;
-    //ImageView btnPrev;
-    ImageView image;
-    ProgressBar spinner;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -88,32 +81,9 @@ public class DetailsPage extends Fragment {
         errorLabel = (TextView) rootView.findViewById(R.id.error_label);
         errorLabel.setVisibility(View.INVISIBLE);
 
-        //btnNext = (ImageView) rootView.findViewById(R.id.arrow_right);
-        //btnPrev = (ImageView) rootView.findViewById(R.id.arrow_left);
-
         image = (ImageView) rootView.findViewById(R.id.picture_host);
 
         titleContainer = rootView.findViewById(R.id.title_container);
-
-
-        /*btnPrev.setOnClickListener(v -> {
-            if (navigationClickListener != null) {
-                navigationClickListener.previous();
-            } else {
-                Log.d("PAGE", "listener is null");
-            }
-        });
-
-        btnNext.setOnClickListener(v -> {
-            if (navigationClickListener != null) {
-                navigationClickListener.next();
-            } else {
-                Log.d("PAGE", "listener is null");
-            }
-        });*/
-
-        //btnNext.setVisibility(isLast ? View.INVISIBLE : View.VISIBLE);
-        //btnPrev.setVisibility(adapterPosition == 0 ? View.INVISIBLE : View.VISIBLE);
 
         spinner = (ProgressBar) rootView.findViewById(R.id.loading);
 

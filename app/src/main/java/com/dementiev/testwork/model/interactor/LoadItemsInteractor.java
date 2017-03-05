@@ -1,8 +1,8 @@
-package com.dementiev.testwork.interactor;
+package com.dementiev.testwork.model.interactor;
 
 import android.content.Context;
 
-import com.dementiev.testwork.interactor.base.Interactor;
+import com.dementiev.testwork.model.interactor.base.Interactor;
 import com.dementiev.testwork.model.network.Endpoint;
 import com.dementiev.testwork.model.storage.ItemsCacheDb;
 
@@ -15,10 +15,10 @@ import io.reactivex.Scheduler;
  */
 
 public class LoadItemsInteractor implements Interactor {
+    ItemsCacheDb db;
     private Scheduler performScheduler;
     private Scheduler observeScheduler;
     private Context context;
-    ItemsCacheDb db;
 
     private LoadItemsInteractor(Context context, Scheduler performScheduler, Scheduler observeScheduler) {
         this.performScheduler = performScheduler;

@@ -2,8 +2,7 @@ package com.dementiev.testwork.model.network;
 
 import com.dementiev.testwork.BuildConfig;
 import com.dementiev.testwork.model.entity.Item;
-import com.dementiev.testwork.model.network.entities.ItemJsonEntity;
-
+import com.dementiev.testwork.model.network.entity.ItemJsonObject;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -21,14 +20,15 @@ import retrofit2.http.GET;
  */
 
 public class Endpoint {
+    private Service service = null;
+
     private Endpoint() {
     }
 
-    private Service service = null;
-
-    private interface Service {
-        @GET("androids")
-        Observable<ArrayList<ItemJsonEntity>> getItems();
+    public static Endpoint create() {
+        Endpoint instance = new Endpoint();
+        instance.intService();
+        return instance;
     }
 
     private void intService() {
@@ -53,13 +53,7 @@ public class Endpoint {
         service = retrofit.create(Service.class);
     }
 
-    public static Endpoint create() {
-        Endpoint instance = new Endpoint();
-        instance.intService();
-        return instance;
-    }
-
-    private Item convertItem(ItemJsonEntity entity) {
+    private Item convertItem(ItemJsonObject entity) {
         return new Item(entity.getId(), entity.getTitle(), entity.getUri());
     }
 
@@ -68,5 +62,10 @@ public class Endpoint {
         return service.getItems()
                 .flatMap(Observable::fromIterable)
                 .map(this::convertItem);
+    }
+
+    private interface Service {
+        @GET("androids")
+        Observable<ArrayList<ItemJsonObject>> getItems();
     }
 }
