@@ -22,34 +22,21 @@ import java.util.AbstractList;
 
 public class DetailsActivity extends BaseActivity implements ItemDetailsView {
     private static final String POSITION_KEY = "current_position";
-
-    public static void create(Context context, int position) {
-        Log.d("DETAILS", "call");
-        Intent intent = new Intent(context, DetailsActivity.class);
-        intent.putExtra(POSITION_KEY, position);
-        context.startActivity(intent);
-    }
-
+    int currentPagePosition = 0;
+    ItemDetailsPresenter detailsPresenter;
+    ImageView btnNext;
+    ImageView btnPrev;
+    AbstractList<Item> itemsSource;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager viewPager;
 
-    int currentPagePosition = 0;
-
-    ItemDetailsPresenter detailsPresenter;
-    ImageView btnNext;
-    ImageView btnPrev;
-    AbstractList<Item> itemsSource;
-
-    private class PageListener extends ViewPager.SimpleOnPageChangeListener {
-        @Override
-        public void onPageSelected(int position) {
-            currentPagePosition = position;
-            checkScrollButtonsVisibility();
-        }
+    public static void create(Context context, int position) {
+        Intent intent = new Intent(context, DetailsActivity.class);
+        intent.putExtra(POSITION_KEY, position);
+        context.startActivity(intent);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,13 +76,13 @@ public class DetailsActivity extends BaseActivity implements ItemDetailsView {
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
         });
 
-        checkScrollButtonsVisibility();
 
         // Set up the ViewPager with the sections adapter.
         viewPager = (ViewPager) findViewById(R.id.container);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(currentPagePosition);
         viewPager.addOnPageChangeListener(new PageListener());
+        checkScrollButtonsVisibility();
     }
 
     private void checkScrollButtonsVisibility() {
@@ -133,6 +120,14 @@ public class DetailsActivity extends BaseActivity implements ItemDetailsView {
     @Override // view
     public void close() {
         finish();
+    }
+
+    private class PageListener extends ViewPager.SimpleOnPageChangeListener {
+        @Override
+        public void onPageSelected(int position) {
+            currentPagePosition = position;
+            checkScrollButtonsVisibility();
+        }
     }
 
 
